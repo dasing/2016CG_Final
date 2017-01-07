@@ -10,8 +10,11 @@ function O = spaceBound(hue_len, prozent, start)
     low = cat(2,low,next_secL);
     if start+gap_len<=hue_len
         high = start+gap_len: hue_len;
+        next_secH = 1:start+gap_len-1;        
+    else
+        high = (start + gap_len - hue_len): hue_len;
+        next_secH = 1:(start + gap_len -hue_len-1);
     end
-    next_secH = 1:start+gap_len-1;
     high = cat(2,high,next_secH);
     O = [low;high];
    

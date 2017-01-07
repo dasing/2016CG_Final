@@ -1,8 +1,8 @@
-% color homorization
+%color homorization
 %first try
 
 %% read image, remap hue imformation into histogram
-im = imread('dog.jpg');
+im = imread('cat3.jpg');
 [H,W,~] = size(im);
 im_hsv = rgb2hsv(im);
 im_h = floor(360 * im_hsv(:,:,1));
@@ -54,45 +54,56 @@ allBound = cell(8);
 % %type i 
 M = [1;0.05];
 [allScore(1),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{1} = bound;
 % 
 % %type V
  M = [1;0.26];
 [allScore(2),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{2} = bound;
 % 
 % %type L
  M = [1,round(90-360*(0.11-0.025));0.05,0.22];
 [allScore(3),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{3} = bound;
 
 % 
 % %type I
 M = [1,180;0.05,0.05];
 [allScore(4),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{4} = bound;
 % 
 % % type T
  M = [1;0.5];
 [allScore(5),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{5} = bound;
 % 
 % % type Y
  M = [1,round(180+360*(0.13-0.025));0.26,0.05];
 [allScore(6),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{6} = bound;
 % 
 % % type X
 M = [1,180;0.26,0.26];
 [allScore(7),bound] = calcTypeScore2(im_hsv,M,hue_len);
-hue_circle_hist(im_hsv_hist,true,bound);
+%hue_circle_hist(im_hsv_hist,true,bound);
 allBound{7} = bound;
 % 
 
-[minScore, idx] = min(allScore);
+[minScore, idx] = min(allScore);% idx is the best fixed template
+optBound = allBound{idx}; % optBound is the best fixed template's bound set
+hue_circle_hist(im_hsv_hist,true,optBound);
+
+%% transfer the color to best match template
+recoverH = naiveSectorCut(optBound, im_hsv, hue_len,im_hsv_hist);
+
+im_hsv(:,:,1) = recoverH;
+imRecover = hsv2rgb(im_hsv);
+figure,
+imshow(imRecover);
+
