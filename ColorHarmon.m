@@ -2,7 +2,7 @@
 %first try
 
 %% read image, remap hue imformation into histogram
-im = imread('cat3.jpg');
+im = imread('poster4.jpg');
 [H,W,~] = size(im);
 im_hsv = rgb2hsv(im);
 im_h = floor(360 * im_hsv(:,:,1));
@@ -101,7 +101,7 @@ hue_circle_hist(im_hsv_hist,true,optBound);
 
 %% transfer the color to best match template
 recoverH = naiveSectorCut(optBound, im_hsv, hue_len,im_hsv_hist);
-
+%recoverH = naiveSectorCut(allBound{3}, im_hsv, hue_len,im_hsv_hist);
 im_hsv(:,:,1) = recoverH;
 imRecover = hsv2rgb(im_hsv);
 figure,

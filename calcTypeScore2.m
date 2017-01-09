@@ -6,7 +6,7 @@ function [minscore,bound] =calcTypeScore2(hsv,M,hue_len)
     
     for in = 1:W
         parTemp = spaceBound(hue_len,M(2,in),M(1,in));
-        par = cat(1,par,parTemp); %2x360 if one space, 4x360 if 2 space
+        par = cat(1,par,parTemp); %2x360 if one sector, 4x360 if 2 sectors
     end
     
     scoreMap = ones(1,size(par,2))*10000;
