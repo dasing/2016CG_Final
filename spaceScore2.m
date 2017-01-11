@@ -35,7 +35,8 @@ function score = spaceScore2(hsv, bound, hue_len)
     boundmap = abs(boundmap);
     mapfilter1 = ones(size(boundmap));
     mapfilter1(boundmap>180) =0;
-    boundmap = boundmap.*mapfilter1 + (hue_len*ones(size(hmap))-boundmap).*(1-mapfilter1);
+    boundmap = boundmap.*mapfilter1 + (hue_len*ones(size(boundmap))-boundmap).*(1-mapfilter1);
+    %boundmap = boundmap.*mapfilter1 + (hue_len*ones(size(hmap))-boundmap).*(1-mapfilter1);
     minmap = min(boundmap,[],3).*map;
     score = sum(sum(minmap.*smap));
        

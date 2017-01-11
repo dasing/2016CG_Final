@@ -2,7 +2,7 @@
 %first try
 
 %% read image, remap hue imformation into histogram
-im = imread('poster4.jpg');
+im = imread('dog.jpg');
 [H,W,~] = size(im);
 im_hsv = rgb2hsv(im);
 im_h = floor(360 * im_hsv(:,:,1));
@@ -96,6 +96,7 @@ allBound{7} = bound;
 % 
 
 [minScore, idx] = min(allScore);% idx is the best fixed template
+idx = 1;
 optBound = allBound{idx}; % optBound is the best fixed template's bound set
 hue_circle_hist(im_hsv_hist,true,optBound);
 

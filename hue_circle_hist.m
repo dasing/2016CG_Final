@@ -33,7 +33,7 @@ function hue_circle_hist(hist,setbound,bound)
             end
         end
     end
-    figure,
-    imshow(im_wheel);
+%     figure,
+%     imshow(im_wheel);
 end
 
