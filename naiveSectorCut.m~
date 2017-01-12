@@ -58,7 +58,10 @@ function [ O, im_wheel ] = naiveSectorCut( bound, im_hsv, hue_len, im_h_hist, ro
         [ height, width ] = size(O);
         for y = 1 : height
             for x = 1 : width
-                O( y, x ) = mod( O(y,x) + rotateAngle, 360 );
+                if (O( y, x ) + rotateAngle) < 360
+                    O( y, x ) = O( y, x ) + rotateAngle;
+                else
+                    O( y, x ) = O( y, x ) 
             end
         end
     end

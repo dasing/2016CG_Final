@@ -1,4 +1,4 @@
-function [imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist ] = doColorHarmon(imagePath, templateIdx )
+function [imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist, idx ] = doColorHarmon(imagePath )
 
     %% read image, remap hue imformation into histogram
     im = imread(imagePath);
@@ -94,17 +94,15 @@ function [imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist ] = doColo
     allBound{7} = bound;
     % 
 
-    if templateIdx == -1 
-        [minScore, idx] = min(allScore);% idx is the best fixed template
-    else
-        idx = templateIdx;
-    end
+    
+    [minScore, idx] = min(allScore);% idx is the best fixed template
+   
     
     optBound = allBound{idx}; % optBound is the best fixed template's bound set
     hue_circle_hist(im_hsv_hist,true,optBound);
 
     %% transfer the color to best match template
-    [ recoverH, im_wheel ] = naiveSectorCut(optBound, im_hsv, hue_len, im_hsv_hist);
+    [ recoverH, im_wheel ] = naiveSectorCut(optBound, im_hsv, hue_len, im_hsv_hist, 0 );
     
     im_hsv(:,:,1) = recoverH;
     imRecover = hsv2rgb(im_hsv);

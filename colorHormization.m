@@ -22,7 +22,7 @@ function varargout = colorHormization(varargin)
 
 % Edit the above text to modify the response to help colorHormization
 
-% Last Modified by GUIDE v2.5 11-Jan-2017 16:37:11
+% Last Modified by GUIDE v2.5 12-Jan-2017 14:49:51
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,6 +55,11 @@ function colorHormization_OpeningFcn(hObject, eventdata, handles, varargin)
 set(handles.axes3,'xtick',[],'ytick',[])
 set(handles.axes6,'xtick',[],'ytick',[])
 set(handles.axes1,'xtick',[],'ytick',[])
+set(handles.axes8,'xtick',[],'ytick',[])
+set(handles.axes9,'xtick',[],'ytick',[])
+readHueWheelImage(handles.axes8)
+showImage(handles.axes9, 'UI_Component/type.png')
+
 
 
 % Choose default command line output for colorHormization
@@ -107,7 +112,8 @@ switch str{val}
         idx = 7;
 end
 
-[ imRecover, im_wheel ] = getImg( idx);
+setCurrIdx(idx);
+[ imRecover, im_wheel ] = getImg( 0 );
 showImage( handles.axes1, imRecover );
 showImage( handles.axes3, im_wheel );
 
@@ -139,7 +145,7 @@ setImagePath(imagePath);
 
 %extract color information from img, and store those image as global
 %variable, then output the result of best matching template
-[imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist ] = doColorHarmon( imagePath, -1 );
+[imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist, idx ] = doColorHarmon( imagePath );
 
 showImage( handles.axes6, imagePath );
 showImage( handles.axes1, imRecover );
@@ -147,6 +153,7 @@ showImage( handles.axes3, im_wheel );
 
 % store allBound to global
 setImgInfo(allBound, im_hsv, hue_len, im_hsv_hist );
+setCurrIdx(idx);
 
 
 % --- Executes on button press in saveImageButton.
@@ -170,16 +177,22 @@ function setImgInfo( bounds, im_hsv, hue_len, im_hsv_hist )
     hsv = im_hsv;
     hue_length = hue_len;
     hsv_hist = im_hsv_hist;
+    
+function setCurrIdx( idx )
+    global currIdx;
+    currIdx = idx;
+    
         
-function [ imRecover, im_wheel ] = getImg( idx )
+function [ imRecover, im_wheel ] = getImg( rotateAngle )
 
     global allBound;
     global hsv;
     global hue_length;
     global hsv_hist;
+    global currIdx;
     
-    bound = allBound{idx};
-    [ imRecover, im_wheel ] = colorTransfering( bound, hsv, hue_length, hsv_hist );
+    bound = allBound{currIdx};
+    [ imRecover, im_wheel ] = colorTransfering( bound, hsv, hue_length, hsv_hist, rotateAngle );
     
 function path = getImagePath
     global fullImagePath;
@@ -189,3 +202,45 @@ function showImage( hObject, img )
     axes(hObject);
     imshow(img);
 
+function readHueWheelImage( hObject )
+    global hueWheelImg;
+    showImage(hObject, 'hue_wheel.jpg');
+    hueWheelImg = imread('hue_wheel.jpg');
+    
+function img = getHueWheelImage
+    global hueWheelImg;
+    img = hueWheelImg;
+
+% --- Executes on slider movement.
+function HueRotationSlider_Callback(hObject, eventdata, handles)
+% hObject    handle to HueRotationSlider (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+angle = round(get(hObject, 'Value'));
+[ im_Recover, im_wheel ] = getImg(angle);
+showImage( handles.axes8, im_wheel );
+showImage( handles.axes1, im_Recover );
+set(handles.rotationValue,'String', num2str(angle) );
+
+% --- Executes during object creation, after setting all properties.
+function HueRotationSlider_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to HueRotationSlider (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function rotationValue_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to rotationValue (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called

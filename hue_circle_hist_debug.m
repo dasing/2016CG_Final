@@ -1,7 +1,7 @@
 % show image hue histogram on the hue wheel
-function im_wheel = hue_circle_hist_debug(hist,setbound,bound,setcut,cut)
+function im_wheel = hue_circle_hist_debug(hist,setbound,bound,setcut,cut, rotateAngle )
 
-    im_wheel = imread('hue_wheel.jpg');
+    im_wheel = imrotate( imread('hue_wheel.jpg'), rotateAngle, 'loose' );
     [wH,wW,~] = size(im_wheel);
     center = [floor(wH/2),floor(wW/2)];
     wheelinR = 76;
