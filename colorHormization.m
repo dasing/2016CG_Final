@@ -61,7 +61,6 @@ readHueWheelImage(handles.axes8)
 showImage(handles.axes9, 'UI_Component/type.png')
 
 
-
 % Choose default command line output for colorHormization
 handles.output = hObject;
 
@@ -161,6 +160,8 @@ function saveImageButton_Callback(hObject, eventdata, handles)
 % hObject    handle to saveImageButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%imwrite( handles.axes1, 'result.png', 'png' );
 
 function setImagePath(path)
     global fullImagePath;

@@ -26,11 +26,7 @@ function [imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist, idx ] = d
         end
     end
     im_hsv_hist = im_hsv_hist(1,1:360);
-    %hue_circle_hist(im_hsv_hist,false,0,0);
-
-    %figure,
-    %stem(im_hsv_hist);
-
+    
     %% plotting hue bar
     % plhu = 0:1/360:1;
     % plhu1 = [];
@@ -93,11 +89,9 @@ function [imRecover, im_wheel, allBound, im_hsv, hue_len, im_hsv_hist, idx ] = d
     %hue_circle_hist(im_hsv_hist,true,bound);
     allBound{7} = bound;
     % 
-
-    
+ 
     [minScore, idx] = min(allScore);% idx is the best fixed template
    
-    
     optBound = allBound{idx}; % optBound is the best fixed template's bound set
     hue_circle_hist(im_hsv_hist,true,optBound);
 

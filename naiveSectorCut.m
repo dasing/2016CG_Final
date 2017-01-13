@@ -14,6 +14,10 @@ function [ O, im_wheel ] = naiveSectorCut( bound, im_hsv, hue_len, im_h_hist, ro
         cut = otsu_cut(bound(2,1),bound(1,1),hue_len,im_h_hist);
         sectorCenter = otsu_cut(bound(1,1),bound(2,1),hue_len,im_h_hist);
         
+        
+        %Question: sectorCenter may not be real center, then w may get
+        %really small
+        
         w= min([abs(sectorCenter - bound(1,1)),abs(sectorCenter - bound(2,1))]);
         %O1 = shiftColor(hue_img,sectorCenter,w,cut,bound(1,1),hue_len,-1);
         %O2 = shiftColor(hue_img,sectorCenter,w,bound(2,1),cut,hue_len,1);
@@ -64,5 +68,6 @@ function [ O, im_wheel ] = naiveSectorCut( bound, im_hsv, hue_len, im_h_hist, ro
     end
     
     O = O/hue_len;% remap the range of hue from [0,360] to [0,1]
+    
     
 end

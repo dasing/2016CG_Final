@@ -14,6 +14,8 @@ function [ O, im_wheel ] = naiveSectorCut( bound, im_hsv, hue_len, im_h_hist, ro
         cut = otsu_cut(bound(2,1),bound(1,1),hue_len,im_h_hist);
         sectorCenter = otsu_cut(bound(1,1),bound(2,1),hue_len,im_h_hist);
         
+        
+        %Question: sector
         w= min([abs(sectorCenter - bound(1,1)),abs(sectorCenter - bound(2,1))]);
         %O1 = shiftColor(hue_img,sectorCenter,w,cut,bound(1,1),hue_len,-1);
         %O2 = shiftColor(hue_img,sectorCenter,w,bound(2,1),cut,hue_len,1);
@@ -58,14 +60,12 @@ function [ O, im_wheel ] = naiveSectorCut( bound, im_hsv, hue_len, im_h_hist, ro
         [ height, width ] = size(O);
         for y = 1 : height
             for x = 1 : width
-                if (O( y, x ) + rotateAngle) < 360
-                    O( y, x ) = O( y, x ) + rotateAngle;
-                else
-                    O( y, x ) = O( y, x ) 
+                O( y, x ) = mod( O(y,x) + rotateAngle, 360 );
             end
         end
     end
     
     O = O/hue_len;% remap the range of hue from [0,360] to [0,1]
+    
     
 end
