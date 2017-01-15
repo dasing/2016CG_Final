@@ -3,7 +3,7 @@ function hue_circle_hist(hist,setbound,bound)
 
 %      figure, 
 %      histogram(transpose(hist));
-     disp(hist);
+     %disp(hist);
     
     im_wheel = imread('hue_wheel.jpg');
     [wH,wW,~] = size(im_wheel);

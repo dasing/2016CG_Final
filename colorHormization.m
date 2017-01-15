@@ -161,6 +161,10 @@ function saveImageButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+F = getframe(handles.axes1);
+Image = frame2im(F);
+imwrite(Image, 'output/result.jpg')
+
 %imwrite( handles.axes1, 'result.png', 'png' );
 
 function setImagePath(path)
