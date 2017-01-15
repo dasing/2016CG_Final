@@ -30,7 +30,7 @@ function O = shiftColor(hue_img,c,w,low,high,hue_len,dirc)
     centerMap = ones(size(hue_img))*c;
     GausExpParMap = -(1/2)*((centerMap-hue_img)./((w/2)*ones(size(hue_img)))).^2;
     GausPar = 1/(w/2*sqrt(2*pi));
-    O = centerMap + dirc*(w/2)*(ones(size(hue_img))-GausPar*exp(GausExpParMap));
+    O = centerMap + (w/2)*(ones(size(hue_img))-GausPar*exp(GausExpParMap));
     O = O.*allmap;
     
     O_too_small = zeros(size(hue_img));

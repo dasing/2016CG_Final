@@ -1,10 +1,6 @@
 % show image hue histogram on the hue wheel
 function hue_circle_hist(hist,setbound,bound)
 
-%      figure, 
-%      histogram(transpose(hist));
-     %disp(hist);
-    
     im_wheel = imread('hue_wheel.jpg');
     [wH,wW,~] = size(im_wheel);
     center = [floor(wH/2),floor(wW/2)];
@@ -37,8 +33,7 @@ function hue_circle_hist(hist,setbound,bound)
             end
         end
     end
-    
-     figure,
-     imshow(im_wheel);
+    figure,
+    imshow(im_wheel);
 end
 
